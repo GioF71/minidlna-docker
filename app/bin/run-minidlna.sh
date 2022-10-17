@@ -43,7 +43,7 @@ if [ -z $MINIDLNA_PORT ]; then
     MINIDLNA_PORT=$DEFAULT_MINIDLNA_PORT
 fi
 
-echo "port=8200" > $CONFIG_FILE
+echo "port=$MINIDLNA_PORT" > $CONFIG_FILE
 
 if [ -n $MINIDLNA_FRIENDLY_NAME ]; then
     echo "friendly_name=$MINIDLNA_FRIENDLY_NAME" > $CONFIG_FILE
