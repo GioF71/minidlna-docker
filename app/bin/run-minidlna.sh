@@ -43,6 +43,10 @@ fi
 echo "db_dir=/db" >> $CONFIG_FILE
 echo "log_dir=/log" >> $CONFIG_FILE
 
+if [ -n "${MINIDLNA_ROOT_CONTAINER}" ]; then
+    echo "root_container=${MINIDLNA_ROOT_CONTAINER}" >> $CONFIG_FILE
+fi
+
 if [ -z "${MINIDLNA_PORT}" ]; then
     MINIDLNA_PORT=$DEFAULT_MINIDLNA_PORT
 fi
