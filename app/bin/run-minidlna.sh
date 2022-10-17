@@ -126,8 +126,10 @@ if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES
     fi
 fi
 
-
-echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
+if [ -n ${MINIDLNA_FORCE_SORT_CRITERIA} ]; then
+    #echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
+    echo "force_sort_criteria=$MINIDLNA_FORCE_SORT_CRITERIA" >> $CONFIG_FILE
+fi
 
 cat $CONFIG_FILE
 
