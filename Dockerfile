@@ -71,6 +71,11 @@ ENV MINIDLNA_ENABLE_INOTIFY ""
 
 ENV MINIDLNA_STRICT_DLNA ""
 
+ENV USER_MODE ""
+
+ENV PUID ""
+ENV PGID ""
+
 COPY app/conf/album-art.conf.snippet /app/conf
 COPY app/bin/run-minidlna.sh /app/bin/
 
