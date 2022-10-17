@@ -127,7 +127,7 @@ if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES
 fi
 
 
-echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
+echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
 
 cat $CONFIG_FILE
 
