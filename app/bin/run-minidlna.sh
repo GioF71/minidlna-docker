@@ -126,6 +126,9 @@ if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES
     fi
 fi
 
+
+echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
+
 cat $CONFIG_FILE
 
 CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P /app/minidlnad.pid"
