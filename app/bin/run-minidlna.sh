@@ -77,7 +77,5 @@ if [ -n $MINIDLNA_STRICT_DLNA ] then;
     fi
 fi
 
-
-
-CMD_LINE="/usr/sbin/minidlnad -f $CONFIG_FILE"
+CMD_LINE="/usr/sbin/minidlnad -f $CONFIG_FILE -P /app/minidlna.pid"
 eval $CMD_LINE
