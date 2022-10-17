@@ -31,9 +31,6 @@ LABEL maintainer="GioF71 <https://github.com/GioF71>"
 RUN mkdir -p /app/bin
 RUN mkdir -p /app/conf
 
-COPY app/bin/run-minidlna.sh /app/bin/
-COPY app/conf/album-art.conf.snippet /app/conf
-
 VOLUME /db
 VOLUME /log
 
@@ -73,6 +70,9 @@ ENV MINIDLNA_MODEL_NUMBER ""
 ENV MINIDLNA_ENABLE_INOTIFY ""
 
 ENV MINIDLNA_STRICT_DLNA ""
+
+COPY app/conf/album-art.conf.snippet /app/conf
+COPY app/bin/run-minidlna.sh /app/bin/
 
 WORKDIR /app/bin
 
