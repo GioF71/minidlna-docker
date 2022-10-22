@@ -49,7 +49,7 @@ Getting the image from DockerHub is as simple as typing:
 ### Environment Variables
 
 Name|Default|Description
-:---|:---|:---
+:---|:---:|:---
 MINIDLNA|8200|Web Interface Port
 MINIDLNA_FRIENDLY_NAME||Defaults to `hostname: username`
 MINIDLNA_SERIAL||Serial number the server reports to clients. Defaults to the MAC address of nework interface
@@ -127,8 +127,8 @@ You can build (or rebuild) the image by opening a terminal from the root of the 
 It will take very little time even on a Raspberry Pi. When it's finished, you can run the container following the previous instructions.  
 Just be careful to use the tag you have built.
 
-## Release History
+## Change History
 
-Release Date|Major Changes
+Date|Major Changes
 :---|:---
 2022-10-23|Initial release
