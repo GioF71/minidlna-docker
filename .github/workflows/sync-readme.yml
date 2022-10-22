@@ -1,0 +1,24 @@
+name: Sync README.md to Docker Hub
+
+on:
+  push:
+    tags:
+      - "release/*"
+
+jobs:
+  sync-readme:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Docker Hub README & description sync
+        uses: meeDamian/sync-readme@v1.0.6
+        with:
+          user: ${{ secrets.DOCKER_USERNAME }}
+          pass: ${{ secrets.DOCKER_PASSWORD }}
+          slug: ${{ secrets.DOCKER_USERNAME }}/minidlna
+          readme: ./README.md
+          description: Easily run minidlna with Docker.

@@ -1,0 +1,125 @@
+name: Publish multi-arch Docker images
+
+on:
+  push:
+    tags:
+      - "release/*"
+      - "main/*"
+      - "devel/*"
+      - "feature/*"
+      - "daily/*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        base: ["bullseye"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare for docker build
+        run: |
+          ref_type=${{ github.ref_type }}
+          echo "REF_TYPE: ["$ref_type"]"
+
+          ref_name=${{ github.ref_name }}
+          echo "REF_NAME: ["$ref_name"]"
+
+          ref=${{ github.ref }}
+          echo "REF: ["$ref"]"
+
+          distro_id=${{ matrix.base }}
+          image_name=${{secrets.DOCKER_USERNAME}}/minidlna
+
+          declare -A base_image_from_matrix
+          base_image_from_matrix[bullseye]=debian:bullseye-slim
+
+          declare -A mpd_versions
+          mpd_versions[bullseye]=1.3.0
+
+          declare -A special_tags
+          special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
+
+          base_image=${base_image_from_matrix[${{ matrix.base }}]}
+          mpd_version=${mpd_versions[${{ matrix.base }}]}
+
+          tags=""
+          if [ "${ref_type}" = "branch" ]; then
+            echo "branch mode";
+            if [ "${ref_name}" = "main" ]; then
+              echo "main branch";
+              tags="${image_name}:main-${distro_id}";
+              tags="$tags,${image_name}:main-${distro_id}-${mpd_version}";
+            elif [ "${ref_name}" = "devel" ]; then
+              echo "devel branch";
+              tags="${image_name}:devel-${distro_id}-${mpd_version}"
+            else
+              echo "other branch ["${ref_name}"]";
+              tags="${image_name}:branch-${ref_name}-${distro_id}-${mpd_version}";
+            fi
+          elif [ "${ref_type}" = "tag" ]; then
+            echo "tag mode";
+            echo "tag is ["${ref_name}"]";
+
+            tag_type=$(echo ${ref_name} | cut -d '/' -f 1)
+            tag_name=$(echo ${ref_name} | cut -d '/' -f 2) 
+
+            if [ "${tag_type}" = "release" ]; then
+              echo "release tag";
+              echo "Building now: ["$distro_id"]";
+              tags="${tags},$image_name:${distro_id}";
+              tags="${tags},$image_name:${distro_id}-${mpd_version}"
+              tags="$tags,$image_name:${distro_id}-${mpd_version}-${tag_name}"              
+              select_special_tags=${special_tags["${distro_id}"]};
+              if [[ -n "${select_special_tags}" ]]; then
+                echo "Found special tags for ["${distro_id}"]=["${select_special_tags}"]";
+                tags="$tags,${select_special_tags}";
+              else
+                echo "No special tag found for ["${distro_id}"]";
+              fi
+            elif [ "${tag_type}" = "main" ]; then
+              echo "main tag";
+              tags="${image_name}:main-${tag_name}-${distro_id}-${mpd_version}";
+            elif [ "${tag_type}" = "devel" ]; then
+              echo "devel tag";
+              tags="${image_name}:devel-${tag_name}-${distro_id}-${mpd_version}";
+            elif [ "${tag_type}" = "feature" ]; then
+              echo "feature tag";
+              tags="${image_name}:feature-${tag_name}-${distro_id}-${mpd_version}";
+            elif [ "${tag_type}" = "daily" ]; then
+              echo "daily build";
+              tags="${tags},${image_name}:daily-${distro_id}";
+              tags="${tags},${image_name}:daily-${distro_id}-${mpd_version}";
+            fi
+          fi
+          echo "Building tags: ["${tags}"]"
+          echo "RELEASE_TAGS=${tags}" >> $GITHUB_ENV
+          echo "BASE_IMAGE=${base_image}" >> $GITHUB_ENV
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: |
+            BASE_IMAGE=${{ env.BASE_IMAGE }}
+          platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
+          push: true
+          tags: ${{ env.RELEASE_TAGS }}
