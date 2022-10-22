@@ -88,7 +88,35 @@ Volume|Description
 
 ### Examples
 
-Coming soon.
+My docker-compose file on my desktop system, dedicated to music. But this might suggest your configuration with videos and pictures as well.
+
+```text
+---
+version: "3"
+
+services:
+  minidlna-desktop:
+    image: giof71/minidlna
+    container_name: minidlna-desktop
+    network_mode: host
+    environment:
+      - MINIDLNA_ROOT_CONTAINER=M
+      - MINIDLNA_DIR_A_1=/music/library1
+      - MINIDLNA_DIR_A_2=/music/library2
+      - MINIDLNA_DIR_A_3=/music/library3
+      - MINIDLNA_ENABLE_INOTIFY=YES
+      - MINIDLNA_FRIENDLY_NAME=minidlna-desktop
+      - MINIDLNA_FORCE_SORT_CRITERIA=+upnp:class,-dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/disk1/library:/music/library1
+      - /mnt/disk2/library:/music/library2
+      - /mnt/disk3/library:/music/library3
+      - ./config/log:/log
+      - ./config/db:/db
+    restart: unless-stopped
+```
 
 ## Build
 
