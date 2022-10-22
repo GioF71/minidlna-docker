@@ -131,4 +131,4 @@ Just be careful to use the tag you have built.
 
 Release Date|Major Changes
 :---|:---
-2022-10-XX|Initial release
+2022-10-23|Initial release
