@@ -57,7 +57,7 @@ MINIDLNA_MODEL_NAME||Model name the server reports to clients
 MINIDLNA_MODEL_NUMBER||Model number the server reports to clients. Defaults to the version number of minidlna.
 MINIDLNA_ENABLE_INOTIFY||Automatic discovery of new files in the media_dir directory
 MINIDLNA_STRICT_DLNA||Strictly adhere to DLNA standards
-MINIDLNA_ROOT_CONTAINER||
+MINIDLNA_ROOT_CONTAINER||Possible values are `.` (Default), `B` (Browse), `M` (Music), `V` (Vidoes), `P` (Pictures)
 MINIDLNA_FORCE_SORT_CRITERIA||Always set SortCriteria to this value, regardless of the SortCriteria passed by the client e.g. force_sort_criteria=+upnp:class,+upnp:originalTrackNumber,+dc:title
 USER_MODE||Set to `Y` or `YES` to enable user mode
 PUID||User id, defaults to `1000`
