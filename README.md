@@ -5,8 +5,9 @@ A Docker image for `minidlna`.
 ## Available Archs on Docker Hub
 
 - linux/amd64
-- linux/arm/v7
 - linux/arm64/v8
+- linux/arm/v7
+- linux/arm/v5
 
 ## Reference
 
@@ -77,7 +78,7 @@ MINIDLNA_DIR_P_2||Picture Path #2
 MINIDLNA_DIR_P_3||Picture Path #3
 MINIDLNA_DIR_P_4||Picture Path #4
 MINIDLNA_DIR_P_5||Picture Path #5
-MINIDLNA_MERGE_MEDIA_DIRS||Set this to merge all media_dir base contents into the root container.The default is no.
+MINIDLNA_MERGE_MEDIA_DIRS||Set this to merge all media_dir base contents into the root container. The default is `no`.
 
 ### Volumes
 
@@ -131,4 +132,5 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2023-07-24|Switch to bookworm, see [#2](https://github.com/GioF71/minidlna-docker/issues/2)
 2022-10-23|Initial release

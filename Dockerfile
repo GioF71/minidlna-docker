@@ -1,5 +1,5 @@
-ARG IMAGE_TAG="${IMAGE_TAG:-bullseye}"
-FROM debian:${IMAGE_TAG} AS base
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE:-debian:stable-slim} AS BASE
 ARG USE_APT_PROXY
 
 RUN mkdir -p /app
@@ -9,16 +9,23 @@ RUN mkdir -p /app/doc
 COPY app/conf/01-apt-proxy /app/conf/
 
 RUN if [ "${USE_APT_PROXY}" = "Y" ]; then \
-  echo "Builind using apt proxy"; \
-  cp /app/conf/01-apt-proxy /etc/apt/apt.conf.d/01-apt-proxy; \
-  cat /etc/apt/apt.conf.d/01-apt-proxy; \
+    echo "Builind using apt proxy"; \
+    cp /app/conf/01-apt-proxy /etc/apt/apt.conf.d/01-apt-proxy; \
+    cat /etc/apt/apt.conf.d/01-apt-proxy; \
   else \
-  echo "Building without apt proxy"; \
+    echo "Building without apt proxy"; \
   fi
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 RUN apt-get install minidlna -y
+
+RUN if [ "${USE_APT_PROXY}" = "Y" ]; then \
+    echo "Removing apt proxy configuration ..."; \
+    rm /etc/apt/apt.conf.d/01-apt-proxy; \
+    echo ". Done."; \
+  fi
+
 RUN rm -rf /var/lib/apt/lists/*
 
 COPY README.md /app/doc
