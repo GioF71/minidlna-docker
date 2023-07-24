@@ -5,8 +5,9 @@ A Docker image for `minidlna`.
 ## Available Archs on Docker Hub
 
 - linux/amd64
-- linux/arm/v7
 - linux/arm64/v8
+- linux/arm/v7
+- linux/arm/v5
 
 ## Reference
 
@@ -49,7 +50,7 @@ Getting the image from DockerHub is as simple as typing:
 ### Environment Variables
 
 Name|Default|Description
-:---|:---|:---
+:---|:---:|:---
 MINIDLNA|8200|Web Interface Port
 MINIDLNA_FRIENDLY_NAME||Defaults to `hostname: username`
 MINIDLNA_SERIAL||Serial number the server reports to clients. Defaults to the MAC address of nework interface
@@ -57,7 +58,7 @@ MINIDLNA_MODEL_NAME||Model name the server reports to clients
 MINIDLNA_MODEL_NUMBER||Model number the server reports to clients. Defaults to the version number of minidlna.
 MINIDLNA_ENABLE_INOTIFY||Automatic discovery of new files in the media_dir directory
 MINIDLNA_STRICT_DLNA||Strictly adhere to DLNA standards
-MINIDLNA_ROOT_CONTAINER||
+MINIDLNA_ROOT_CONTAINER||Possible values are `.` (Default), `B` (Browse), `M` (Music), `V` (Vidoes), `P` (Pictures)
 MINIDLNA_FORCE_SORT_CRITERIA||Always set SortCriteria to this value, regardless of the SortCriteria passed by the client e.g. force_sort_criteria=+upnp:class,+upnp:originalTrackNumber,+dc:title
 USER_MODE||Set to `Y` or `YES` to enable user mode
 PUID||User id, defaults to `1000`
@@ -77,7 +78,7 @@ MINIDLNA_DIR_P_2||Picture Path #2
 MINIDLNA_DIR_P_3||Picture Path #3
 MINIDLNA_DIR_P_4||Picture Path #4
 MINIDLNA_DIR_P_5||Picture Path #5
-MINIDLNA_MERGE_MEDIA_DIRS||Set this to merge all media_dir base contents into the root container.The default is no.
+MINIDLNA_MERGE_MEDIA_DIRS||Set this to merge all media_dir base contents into the root container. The default is `no`.
 
 ### Volumes
 
@@ -127,8 +128,9 @@ You can build (or rebuild) the image by opening a terminal from the root of the 
 It will take very little time even on a Raspberry Pi. When it's finished, you can run the container following the previous instructions.  
 Just be careful to use the tag you have built.
 
-## Release History
+## Change History
 
-Release Date|Major Changes
+Date|Major Changes
 :---|:---
+2023-07-24|Switch to bookworm, see [#2](https://github.com/GioF71/minidlna-docker/issues/2)
 2022-10-23|Initial release
