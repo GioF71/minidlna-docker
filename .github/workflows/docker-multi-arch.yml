@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base: ["bookworm"]
+        base: ["stable"]
 
     steps:
       - name: Checkout
@@ -38,18 +38,23 @@ jobs:
           declare -A base_image_from_matrix
           base_image_from_matrix[sid]=debian:sid-slim
           base_image_from_matrix[trixie]=debian:trixie-slim
+          base_image_from_matrix[unstable]=debian:unstable-slim
+          base_image_from_matrix[stable]=debian:stable-slim
           base_image_from_matrix[bookworm]=debian:bookworm-slim
           base_image_from_matrix[bullseye]=debian:bullseye-slim
 
           declare -A app_version_table
-          app_version_table[sid]=1.3.2
-          app_version_table[trixie]=1.3.2
+          app_version_table[sid]=1.3.3
+          app_version_table[trixie]=1.3.3
+          app_version_table[unstable]=1.3.3
+          app_version_table[stable]=1.3.0
           app_version_table[bookworm]=1.3.0
           app_version_table[bullseye]=1.3.0
 
           declare -A special_tags
           special_tags[sid]="${image_name}:unstable"
           special_tags[trixie]="${image_name}:nextstable"
+          special_tags[stable]="${image_name}:stable,${image_name}:latest"
           special_tags[bookworm]="${image_name}:stable,${image_name}:latest"
           special_tags[bullseye]="${image_name}:oldstable"
 
