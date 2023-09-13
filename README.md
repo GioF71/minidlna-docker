@@ -57,6 +57,7 @@ MINIDLNA_SERIAL|Serial number the server reports to clients. Defaults to the MAC
 MINIDLNA_MODEL_NAME|Model name the server reports to clients
 MINIDLNA_MODEL_NUMBER|Model number the server reports to clients. Defaults to the version number of minidlna.
 MINIDLNA_ENABLE_INOTIFY|Automatic discovery of new files in the media_dir directory
+MINIDLNA_NOTIFY_INTERVAL|Set the notify interval, in seconds. The default is 895 seconds.
 MINIDLNA_STRICT_DLNA|Strictly adhere to DLNA standards
 MINIDLNA_ROOT_CONTAINER|Possible values are `.` (Default), `B` (Browse), `M` (Music), `V` (Vidoes), `P` (Pictures)
 MINIDLNA_FORCE_SORT_CRITERIA|Always set SortCriteria to this value, regardless of the SortCriteria passed by the client e.g. force_sort_criteria=+upnp:class,+upnp:originalTrackNumber,+dc:title
@@ -132,5 +133,6 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2023-09-13|Add support to notify interval, see [#6](https://github.com/GioF71/minidlna-docker/issues/6)
 2023-07-24|Switch to bookworm, see [#2](https://github.com/GioF71/minidlna-docker/issues/2)
 2022-10-23|Initial release
