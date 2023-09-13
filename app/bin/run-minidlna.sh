@@ -75,6 +75,10 @@ if [ -n "${MINIDLNA_ENABLE_INOTIFY}" ]; then
     fi
 fi
 
+if [ -n "${MINIDLNA_NOTIFY_INTERVAL}" ]; then
+    echo "notify_interval=${MINIDLNA_NOTIFY_INTERVAL}" >> $CONFIG_FILE
+fi
+
 cat /app/conf/album-art.conf.snippet >> $CONFIG_FILE
 
 if [ -n "${MINIDLNA_STRICT_DLNA}" ]; then
