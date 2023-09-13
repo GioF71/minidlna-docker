@@ -133,6 +133,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2023-09-13|Switch to debian stable, see [#8](https://github.com/GioF71/minidlna-docker/issues/8)
 2023-09-13|Add support to notify interval, see [#6](https://github.com/GioF71/minidlna-docker/issues/6)
 2023-07-24|Switch to bookworm, see [#2](https://github.com/GioF71/minidlna-docker/issues/2)
 2022-10-23|Initial release

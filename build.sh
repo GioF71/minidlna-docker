@@ -13,9 +13,11 @@ base_images[trixie]=debian:trixie-slim
 base_images[bookworm]=debian:bookworm-slim
 base_images[bullseye]=debian:bullseye-slim
 base_images[buster]=debian:buster-slim
+base_images[lunar]=ubuntu:lunar
+base_images[kinetic]=ubuntu:kinetic
 base_images[jammy]=ubuntu:jammy
 
-DEFAULT_BASE_IMAGE=bookworm
+DEFAULT_BASE_IMAGE=stable
 DEFAULT_TAG=local
 DEFAULT_USE_PROXY=N
 
