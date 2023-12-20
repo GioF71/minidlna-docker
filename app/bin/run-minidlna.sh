@@ -7,7 +7,10 @@ DEFAULT_MINIDLNA_PORT=8200
 DEFAULT_UID=1000
 DEFAULT_GID=1000
 
-CONFIG_FILE=/app/conf/minidlna.conf
+current_user_id=$(id -u)
+echo "Current user id is [$current_user_id]"
+
+CONFIG_FILE=/tmp/minidlna.conf
 
 echo "# MINIDLNA CONFIG" > $CONFIG_FILE
 
@@ -90,43 +93,44 @@ if [ -n "${MINIDLNA_STRICT_DLNA}" ]; then
 fi
 
 USE_USER_MODE=N
-
-if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES" ] ]; then
-    USE_USER_MODE=Y
-    if [ -z "${PUID}" ]; then
-        PUID=$DEFAULT_UID;
-        echo "Setting default value for PUID: ["$PUID"]"
-    fi
-    if [ -z "${PGID}" ]; then
-        PGID=$DEFAULT_GID;
-        echo "Setting default value for PGID: ["$PGID"]"
-    fi
-    USER_NAME=minidlna-user
-    GROUP_NAME=minidlna-user
-    HOME_DIR=/home/$USER_NAME
-    ### create home directory and ancillary directories
-    if [ ! -d "$HOME_DIR" ]; then
-        echo "Home directory [$HOME_DIR] not found, creating."
-        mkdir -p $HOME_DIR
-        chown -R $PUID:$PGID $HOME_DIR
-        ls -la $HOME_DIR -d
-        ls -la $HOME_DIR
-    fi
-    ### create group
-    if [ ! $(getent group $GROUP_NAME) ]; then
-        echo "group $GROUP_NAME does not exist, creating..."
-        groupadd -g $PGID $GROUP_NAME
-    else
-        echo "group $GROUP_NAME already exists."
-    fi
-    ### create user
-    if [ ! $(getent passwd $USER_NAME) ]; then
-        echo "user $USER_NAME does not exist, creating..."
-        useradd -g $PGID -u $PUID -s /bin/bash -M -d $HOME_DIR $USER_NAME
-        id $USER_NAME
-        echo "user $USER_NAME created."
-    else
-        echo "user $USER_NAME already exists."
+if [[ $current_user_id -eq 0 ]]; then
+    if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES" ] ]; then
+        USE_USER_MODE=Y
+        if [ -z "${PUID}" ]; then
+            PUID=$DEFAULT_UID;
+            echo "Setting default value for PUID: ["$PUID"]"
+        fi
+        if [ -z "${PGID}" ]; then
+            PGID=$DEFAULT_GID;
+            echo "Setting default value for PGID: ["$PGID"]"
+        fi
+        USER_NAME=minidlna-user
+        GROUP_NAME=minidlna-user
+        HOME_DIR=/home/$USER_NAME
+        ### create home directory and ancillary directories
+        if [ ! -d "$HOME_DIR" ]; then
+            echo "Home directory [$HOME_DIR] not found, creating."
+            mkdir -p $HOME_DIR
+            chown -R $PUID:$PGID $HOME_DIR
+            ls -la $HOME_DIR -d
+            ls -la $HOME_DIR
+        fi
+        ### create group
+        if [ ! $(getent group $GROUP_NAME) ]; then
+            echo "group $GROUP_NAME does not exist, creating..."
+            groupadd -g $PGID $GROUP_NAME
+        else
+            echo "group $GROUP_NAME already exists."
+        fi
+        ### create user
+        if [ ! $(getent passwd $USER_NAME) ]; then
+            echo "user $USER_NAME does not exist, creating..."
+            useradd -g $PGID -u $PUID -s /bin/bash -M -d $HOME_DIR $USER_NAME
+            id $USER_NAME
+            echo "user $USER_NAME created."
+        else
+            echo "user $USER_NAME already exists."
+        fi
     fi
 fi
 
@@ -137,7 +141,7 @@ fi
 
 cat $CONFIG_FILE
 
-CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P /app/minidlnad.pid"
+CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P /tmp/minidlnad.pid"
 echo "CMD_LINE=$CMD_LINE"
 
 echo "USER_MODE=[${USE_USER_MODE}]"

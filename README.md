@@ -120,6 +120,38 @@ services:
     restart: unless-stopped
 ```
 
+With images built after (and including) 2023-12-20, you can specify the username with a `user: "1000:1000"` in your compose file instead of setting PUID and PGID.  
+The previous compose file would become:
+
+```text
+---
+version: "3"
+
+services:
+  minidlna-desktop:
+    image: giof71/minidlna
+    container_name: minidlna-desktop
+    network_mode: host
+    user: "1000:1000"
+    environment:
+      - MINIDLNA_ROOT_CONTAINER=M
+      - MINIDLNA_DIR_A_1=/music/library1
+      - MINIDLNA_DIR_A_2=/music/library2
+      - MINIDLNA_DIR_A_3=/music/library3
+      - MINIDLNA_ENABLE_INOTIFY=YES
+      - MINIDLNA_FRIENDLY_NAME=minidlna-desktop
+      - MINIDLNA_FORCE_SORT_CRITERIA=+upnp:class,-dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title
+    volumes:
+      - /mnt/disk1/library:/music/library1
+      - /mnt/disk2/library:/music/library2
+      - /mnt/disk3/library:/music/library3
+      - ./config/log:/log
+      - ./config/db:/db
+    restart: unless-stopped
+```
+
+In this case, make sure that the directories you bind exist and are writable from the specified uid/gid.  
+
 ## Build
 
 You can build (or rebuild) the image by opening a terminal from the root of the repository and issuing the following command:
@@ -133,6 +165,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2023-12-20|Allow docker user mode, see [#10](https://github.com/GioF71/minidlna-docker/issues/10)
 2023-09-13|Switch to debian stable, see [#8](https://github.com/GioF71/minidlna-docker/issues/8)
 2023-09-13|Add support to notify interval, see [#6](https://github.com/GioF71/minidlna-docker/issues/6)
 2023-07-24|Switch to bookworm, see [#2](https://github.com/GioF71/minidlna-docker/issues/2)
