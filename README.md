@@ -165,6 +165,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2024-01-16|Fixed run script, see [#12](https://github.com/GioF71/minidlna-docker/issues/12)
 2023-12-20|Allow docker user mode, see [#10](https://github.com/GioF71/minidlna-docker/issues/10)
 2023-09-13|Switch to debian stable, see [#8](https://github.com/GioF71/minidlna-docker/issues/8)
 2023-09-13|Add support to notify interval, see [#6](https://github.com/GioF71/minidlna-docker/issues/6)

@@ -94,7 +94,7 @@ fi
 
 USE_USER_MODE=N
 if [[ $current_user_id -eq 0 ]]; then
-    if [ -n "${PUID}" ] || [ [ "${USER_MODE^^}" = "Y" ] || [ "${USER_MODE^^}" = "YES" ] ]; then
+    if [[ -n "${PUID}" ]] || ([[ "${USER_MODE^^}" == "Y" ]] || [[ "${USER_MODE^^}" = "YES" ]]); then
         USE_USER_MODE=Y
         if [ -z "${PUID}" ]; then
             PUID=$DEFAULT_UID;
@@ -132,10 +132,14 @@ if [[ $current_user_id -eq 0 ]]; then
             echo "user $USER_NAME already exists."
         fi
     fi
+    echo "Setting user permissions on /log ..."
+    chown -R $USER_NAME:$GROUP_NAME /log
+    echo "Setting user permissions on /db ..."
+    chown -R $USER_NAME:$GROUP_NAME /db
+    echo "User permissions set."
 fi
 
 if [ -n ${MINIDLNA_FORCE_SORT_CRITERIA} ]; then
-    #echo "force_sort_criteria=+upnp:class,+dc:date,+upnp:album,+upnp:originalTrackNumber,+dc:title" >> $CONFIG_FILE
     echo "force_sort_criteria=$MINIDLNA_FORCE_SORT_CRITERIA" >> $CONFIG_FILE
 fi
 
