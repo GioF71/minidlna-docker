@@ -61,6 +61,7 @@ MINIDLNA_NOTIFY_INTERVAL|Set the notify interval, in seconds. The default is 895
 MINIDLNA_STRICT_DLNA|Strictly adhere to DLNA standards
 MINIDLNA_ROOT_CONTAINER|Possible values are `.` (Default), `B` (Browse), `M` (Music), `V` (Vidoes), `P` (Pictures)
 MINIDLNA_FORCE_SORT_CRITERIA|Always set SortCriteria to this value, regardless of the SortCriteria passed by the client e.g. force_sort_criteria=+upnp:class,+upnp:originalTrackNumber,+dc:title
+MINIDLNA_LOG_LEVEL|Set this to change the verbosity of the information that is logged each section can use a different level: off, fatal, error, warn, info, or debug
 USER_MODE|Set to `Y` or `YES` to enable user mode
 PUID|User id, defaults to `1000`
 PGID|Group id, defaults to `1000`
@@ -165,6 +166,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2024-01-22|Add support for log_level, see [#14](https://github.com/GioF71/minidlna-docker/issues/14)
 2024-01-16|Fixed run script, see [#12](https://github.com/GioF71/minidlna-docker/issues/12)
 2023-12-20|Allow docker user mode, see [#10](https://github.com/GioF71/minidlna-docker/issues/10)
 2023-09-13|Switch to debian stable, see [#8](https://github.com/GioF71/minidlna-docker/issues/8)

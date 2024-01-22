@@ -46,6 +46,10 @@ fi
 echo "db_dir=/db" >> $CONFIG_FILE
 echo "log_dir=/log" >> $CONFIG_FILE
 
+if [ -n "${MINIDLNA_LOG_LEVEL}" ]; then
+    echo "log_level=${MINIDLNA_LOG_LEVEL}" >> $CONFIG_FILE
+fi
+
 if [ -n "${MINIDLNA_ROOT_CONTAINER}" ]; then
     echo "root_container=${MINIDLNA_ROOT_CONTAINER}" >> $CONFIG_FILE
 fi
