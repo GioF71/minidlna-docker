@@ -52,6 +52,7 @@ Getting the image from DockerHub is as simple as typing:
 Name|Description
 :---|:---
 MINIDLNA_PORT|Web Interface Port, defaults to `8200`
+MINIDLNA_NETWORK_INTERFACE|Network interfaces to serve, comma delimited; maximum is 8 interfaces, defaults to all
 MINIDLNA_FRIENDLY_NAME|Defaults to `hostname: username`
 MINIDLNA_SERIAL|Serial number the server reports to clients. Defaults to the MAC address of nework interface
 MINIDLNA_MODEL_NAME|Model name the server reports to clients

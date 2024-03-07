@@ -60,6 +60,10 @@ fi
 
 echo "port=$MINIDLNA_PORT" >> $CONFIG_FILE
 
+if [ -n "${MINIDLNA_NETWORK_INTERFACE}" ]; then
+    echo "network_interface=${MINIDLNA_NETWORK_INTERFACE}" >> $CONFIG_FILE
+fi
+
 if [ -n "${MINIDLNA_FRIENDLY_NAME}" ]; then
     echo "friendly_name=${MINIDLNA_FRIENDLY_NAME}" >> $CONFIG_FILE
 fi
