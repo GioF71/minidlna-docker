@@ -173,6 +173,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2024-06-15|Handle non writable mountpoints gracefully, see [#28](https://github.com/GioF71/minidlna-docker/issues/28)
 2024-03-07|Add support for network_interface, see [#22](https://github.com/GioF71/minidlna-docker/issues/22)
 2024-01-22|Add support for log_level, see [#14](https://github.com/GioF71/minidlna-docker/issues/14)
 2024-01-16|Fixed run script, see [#12](https://github.com/GioF71/minidlna-docker/issues/12)

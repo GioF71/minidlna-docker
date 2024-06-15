@@ -10,6 +10,53 @@ DEFAULT_GID=1000
 current_user_id=$(id -u)
 echo "Current user id is [$current_user_id]"
 
+USE_USER_MODE=N
+if [[ $current_user_id -eq 0 ]]; then
+    if [[ -n "${PUID}" ]] || ([[ "${USER_MODE^^}" == "Y" ]] || [[ "${USER_MODE^^}" = "YES" ]]); then
+        USE_USER_MODE=Y
+        if [ -z "${PUID}" ]; then
+            PUID=$DEFAULT_UID;
+            echo "Setting default value for PUID: ["$PUID"]"
+        fi
+        if [ -z "${PGID}" ]; then
+            PGID=$DEFAULT_GID;
+            echo "Setting default value for PGID: ["$PGID"]"
+        fi
+        USER_NAME=minidlna-user
+        GROUP_NAME=minidlna-user
+        HOME_DIR=/home/$USER_NAME
+        ### create home directory and ancillary directories
+        if [ ! -d "$HOME_DIR" ]; then
+            echo "Home directory [$HOME_DIR] not found, creating."
+            mkdir -p $HOME_DIR
+            chown -R $PUID:$PGID $HOME_DIR
+            ls -la $HOME_DIR -d
+            ls -la $HOME_DIR
+        fi
+        ### create group
+        if [ ! $(getent group $GROUP_NAME) ]; then
+            echo "group $GROUP_NAME does not exist, creating..."
+            groupadd -g $PGID $GROUP_NAME
+        else
+            echo "group $GROUP_NAME already exists."
+        fi
+        ### create user
+        if [ ! $(getent passwd $USER_NAME) ]; then
+            echo "user $USER_NAME does not exist, creating..."
+            useradd -g $PGID -u $PUID -s /bin/bash -M -d $HOME_DIR $USER_NAME
+            id $USER_NAME
+            echo "user $USER_NAME created."
+        else
+            echo "user $USER_NAME already exists."
+        fi
+    fi
+    echo "Setting user permissions on /log ..."
+    chown -R $USER_NAME:$GROUP_NAME /log
+    echo "Setting user permissions on /db ..."
+    chown -R $USER_NAME:$GROUP_NAME /db
+    echo "User permissions set."
+fi
+
 CONFIG_FILE=/tmp/minidlna.conf
 
 echo "# MINIDLNA CONFIG" > $CONFIG_FILE
@@ -43,8 +90,28 @@ if [ -n "$MINIDLNA_MERGE_MEDIA_DIRS" ]; then
     fi
 fi
 
-echo "db_dir=/db" >> $CONFIG_FILE
-echo "log_dir=/log" >> $CONFIG_FILE
+db_dir="/db"
+if [ $current_user_id -ne 0 ]; then
+    if [ ! -w "$db_dir" ]; then
+        echo "Warning, user is [$current_user_id], directory for db [$db_dir] is not writable, using /tmp/db ..."
+        mkdir -p /tmp/db
+        db_dir=/tmp/db
+    else
+        echo "db_dir [$db_dir] is writable."
+    fi
+fi
+log_dir="/log"
+if [ $current_user_id -ne 0 ]; then
+    if [ ! -w "$log_dir" ]; then
+        echo "Warning, user is [$current_user_id], directory for log [$log_dir] is not writable, using /tmp/log ..."
+        mkdir -p /tmp/log
+        log_dir=/tmp/log
+    else
+        echo "log_dir [$log_dir] is writable."
+    fi
+fi
+echo "db_dir=$db_dir" >> $CONFIG_FILE
+echo "log_dir=$log_dir" >> $CONFIG_FILE
 
 if [ -n "${MINIDLNA_LOG_LEVEL}" ]; then
     echo "log_level=${MINIDLNA_LOG_LEVEL}" >> $CONFIG_FILE
@@ -98,53 +165,6 @@ if [ -n "${MINIDLNA_STRICT_DLNA}" ]; then
     else
         echo "strict_dlna=no" >> $CONFIG_FILE
     fi
-fi
-
-USE_USER_MODE=N
-if [[ $current_user_id -eq 0 ]]; then
-    if [[ -n "${PUID}" ]] || ([[ "${USER_MODE^^}" == "Y" ]] || [[ "${USER_MODE^^}" = "YES" ]]); then
-        USE_USER_MODE=Y
-        if [ -z "${PUID}" ]; then
-            PUID=$DEFAULT_UID;
-            echo "Setting default value for PUID: ["$PUID"]"
-        fi
-        if [ -z "${PGID}" ]; then
-            PGID=$DEFAULT_GID;
-            echo "Setting default value for PGID: ["$PGID"]"
-        fi
-        USER_NAME=minidlna-user
-        GROUP_NAME=minidlna-user
-        HOME_DIR=/home/$USER_NAME
-        ### create home directory and ancillary directories
-        if [ ! -d "$HOME_DIR" ]; then
-            echo "Home directory [$HOME_DIR] not found, creating."
-            mkdir -p $HOME_DIR
-            chown -R $PUID:$PGID $HOME_DIR
-            ls -la $HOME_DIR -d
-            ls -la $HOME_DIR
-        fi
-        ### create group
-        if [ ! $(getent group $GROUP_NAME) ]; then
-            echo "group $GROUP_NAME does not exist, creating..."
-            groupadd -g $PGID $GROUP_NAME
-        else
-            echo "group $GROUP_NAME already exists."
-        fi
-        ### create user
-        if [ ! $(getent passwd $USER_NAME) ]; then
-            echo "user $USER_NAME does not exist, creating..."
-            useradd -g $PGID -u $PUID -s /bin/bash -M -d $HOME_DIR $USER_NAME
-            id $USER_NAME
-            echo "user $USER_NAME created."
-        else
-            echo "user $USER_NAME already exists."
-        fi
-    fi
-    echo "Setting user permissions on /log ..."
-    chown -R $USER_NAME:$GROUP_NAME /log
-    echo "Setting user permissions on /db ..."
-    chown -R $USER_NAME:$GROUP_NAME /db
-    echo "User permissions set."
 fi
 
 if [ -n ${MINIDLNA_FORCE_SORT_CRITERIA} ]; then
