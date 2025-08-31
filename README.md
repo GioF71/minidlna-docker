@@ -75,18 +75,18 @@ PGID|Group id, defaults to `1000`
 MINIDLNA_DIR_A_1|Audio Path #1
 MINIDLNA_DIR_A_2|Audio Path #2
 MINIDLNA_DIR_A_3|Audio Path #3
-MINIDLNA_DIR_A_4|Audio Path #4
-MINIDLNA_DIR_A_5|Audio Path #5
+MINIDLNA_DIR_A_...|Audio Path #...
+MINIDLNA_DIR_A_100|Audio Path #100
 MINIDLNA_DIR_V_1|Video Path #1
 MINIDLNA_DIR_V_2|Video Path #2
 MINIDLNA_DIR_V_3|Video Path #3
-MINIDLNA_DIR_V_4|Video Path #4
-MINIDLNA_DIR_V_5|Video Path #5
+MINIDLNA_DIR_V_...|Video Path #...
+MINIDLNA_DIR_V_100|Video Path #100
 MINIDLNA_DIR_P_1|Picture Path #1
 MINIDLNA_DIR_P_2|Picture Path #2
 MINIDLNA_DIR_P_3|Picture Path #3
-MINIDLNA_DIR_P_4|Picture Path #4
-MINIDLNA_DIR_P_5|Picture Path #5
+MINIDLNA_DIR_P_...|Picture Path #...
+MINIDLNA_DIR_P_100|Picture Path #100
 MINIDLNA_MERGE_MEDIA_DIRS|Set this to merge all media_dir base contents into the root container. The default is `no`.
 
 ### Volumes
@@ -173,6 +173,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2025-08-31|Support 100 variables for each folder type, see [#35](https://github.com/GioF71/minidlna-docker/issues/35)
 2024-06-15|Handle non writable mountpoints gracefully, see [#28](https://github.com/GioF71/minidlna-docker/issues/28)
 2024-03-07|Add support for network_interface, see [#22](https://github.com/GioF71/minidlna-docker/issues/22)
 2024-01-22|Add support for log_level, see [#14](https://github.com/GioF71/minidlna-docker/issues/14)

@@ -61,20 +61,20 @@ CONFIG_FILE=/tmp/minidlna.conf
 
 echo "# MINIDLNA CONFIG" > $CONFIG_FILE
 
-for i in {1..5}
+for i in {1..100}
 do
     for t in A P V
     do
         echo "t=$t"
         ENV_NAME="MINIDLNA_DIR_${t}_${i}"
-        echo "Processing media_dir for ENV_NAME=[${!ENV_NAME}]"
+        echo "Processing media_dir for $ENV_NAME=[${!ENV_NAME}]"
         if [ -n "${!ENV_NAME}" ]; then
             echo "media_dir=$t,${!ENV_NAME}" >> $CONFIG_FILE
         fi
     done
 done
 
-for i in {1..5}
+for i in {1..100}
 do
     ENV_NAME="MINIDLNA_DIR_CUSTOM_$i"
     if [ -n "${!ENV_NAME}" ]; then
