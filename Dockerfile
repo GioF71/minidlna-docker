@@ -1,5 +1,5 @@
 ARG BASE_IMAGE
-FROM ${BASE_IMAGE:-debian:stable-slim} AS BASE
+FROM ${BASE_IMAGE:-debian:stable-slim} AS base
 ARG USE_APT_PROXY
 
 RUN mkdir -p /app
