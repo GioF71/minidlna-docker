@@ -173,13 +173,24 @@ fi
 
 cat $CONFIG_FILE
 
-CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P /tmp/minidlnad.pid"
+PIDFILE_NAME="/tmp/minidlnad.pid"
+if [ -f "$PIDFILE_NAME" ]; then
+    echo "Removing pid file [$PIDFILE_NAME] ..."
+    rm "$PIDFILE_NAME"
+    echo "Existing pid file [$PIDFILE_NAME] removed."
+else
+    echo "The pid file [$PIDFILE_NAME] does not exist."
+fi
+
+CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P $PIDFILE_NAME"
 echo "CMD_LINE=$CMD_LINE"
 
 echo "USER_MODE=[${USE_USER_MODE}]"
 if [ "${USE_USER_MODE}" = "Y" ]; then
     echo "USER_MODE with uid[$PUID] gid[$PGID]"
-    su $USER_NAME -c "$CMD_LINE"
+    # su $USER_NAME -c "$CMD_LINE"
+    exec su - $USER_NAME -c "$CMD_LINE"
 else
-    eval $CMD_LINE
+    # eval $CMD_LINE
+    exec $CMD_LINE
 fi
