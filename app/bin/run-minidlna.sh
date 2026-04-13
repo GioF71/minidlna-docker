@@ -173,16 +173,7 @@ fi
 
 cat $CONFIG_FILE
 
-PIDFILE_NAME="/tmp/minidlnad.pid"
-if [ -f "$PIDFILE_NAME" ]; then
-    echo "Removing pid file [$PIDFILE_NAME] ..."
-    rm "$PIDFILE_NAME"
-    echo "Existing pid file [$PIDFILE_NAME] removed."
-else
-    echo "The pid file [$PIDFILE_NAME] does not exist."
-fi
-
-CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE -P $PIDFILE_NAME"
+CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE"
 echo "CMD_LINE=$CMD_LINE"
 
 echo "USER_MODE=[${USE_USER_MODE}]"
