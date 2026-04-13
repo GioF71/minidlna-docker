@@ -173,6 +173,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2026-04-13|Avoid to use a PID file [#39](https://github.com/GioF71/minidlna-docker/issues/39)
 2026-04-11|Fixed issue [#37](https://github.com/GioF71/minidlna-docker/issues/37)
 2025-08-31|Support 100 variables for each folder type, see [#35](https://github.com/GioF71/minidlna-docker/issues/35)
 2024-06-15|Handle non writable mountpoints gracefully, see [#28](https://github.com/GioF71/minidlna-docker/issues/28)
