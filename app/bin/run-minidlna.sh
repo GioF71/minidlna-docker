@@ -173,7 +173,23 @@ fi
 
 cat $CONFIG_FILE
 
+# -S is for "stay in foreground", so it's what we need in a container image
 CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE"
+
+if [[ "${MINIDLNA_FULL_RESCAN_MEDIA_FILES^^}" == "Y" ]] || [[ "${MINIDLNA_FULL_RESCAN_MEDIA_FILES^^}" == "YES" ]]; then
+    echo "MINIDLNA_FULL_RESCAN_MEDIA_FILES is [$MINIDLNA_FULL_RESCAN_MEDIA_FILES], running with -R ..."
+    CMD_LINE="${CMD_LINE} -R"
+else
+    echo "MINIDLNA_FULL_RESCAN_MEDIA_FILES not specified."
+    if [[ "${MINIDLNA_NON_DESTRUCTIVE_RESCAN^^}" == "Y" ]] || [[ "${MINIDLNA_NON_DESTRUCTIVE_RESCAN^^}" == "YES" ]]; then
+        echo "MINIDLNA_NON_DESTRUCTIVE_RESCAN is [$MINIDLNA_NON_DESTRUCTIVE_RESCAN], running with -r ..."
+        CMD_LINE="${CMD_LINE} -r"
+    else
+        echo "MINIDLNA_NON_DESTRUCTIVE_RESCAN not specified."
+    fi
+fi
+
+
 echo "CMD_LINE=$CMD_LINE"
 
 echo "USER_MODE=[${USE_USER_MODE}]"

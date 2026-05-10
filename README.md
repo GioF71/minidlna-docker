@@ -88,6 +88,8 @@ MINIDLNA_DIR_P_3|Picture Path #3
 MINIDLNA_DIR_P_...|Picture Path #...
 MINIDLNA_DIR_P_100|Picture Path #100
 MINIDLNA_MERGE_MEDIA_DIRS|Set this to merge all media_dir base contents into the root container. The default is `no`.
+MINIDLNA_FULL_RESCAN_MEDIA_FILES|Ensure minidlna is run with `-R` if set to `yes`
+MINIDLNA_NON_DESTRUCTIVE_RESCAN|Ensure minidlna is run with `-r` if set to `yes`
 
 ### Volumes
 
@@ -173,6 +175,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2026-05-10|Add support for `-r` and `-R`, see [#41](https://github.com/GioF71/minidlna-docker/issues/41)
 2026-04-13|Avoid to use a PID file [#39](https://github.com/GioF71/minidlna-docker/issues/39)
 2026-04-11|Fixed issue [#37](https://github.com/GioF71/minidlna-docker/issues/37)
 2025-08-31|Support 100 variables for each folder type, see [#35](https://github.com/GioF71/minidlna-docker/issues/35)
