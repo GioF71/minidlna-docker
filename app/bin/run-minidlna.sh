@@ -173,6 +173,13 @@ fi
 
 cat $CONFIG_FILE
 
+# Ensure the pidfile is removed if left over from a hard container kill
+if [ -f /var/run/minidlna/minidlna.pid ]; then
+    echo "Stale pid file detected, cleaning up ..."
+    rm -f /var/run/minidlna/minidlna.pid
+    echo "Pid file removed successfully."
+fi
+
 # -S is for "stay in foreground", so it's what we need in a container image
 CMD_LINE="/usr/sbin/minidlnad -S -f $CONFIG_FILE"
 
