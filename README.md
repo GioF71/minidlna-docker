@@ -17,7 +17,8 @@ Please note that support goal is limited to cover running costs for subscription
 
 ## Reference
 
-GitHub repository of the project: [here](https://github.com/azatoth/minidlna).
+GitHub repository of the project: [here](https://github.com/azatoth/minidlna).  
+
 ## Links
 
 Source: [GitHub](https://github.com/giof71/minidlna-docker)  
@@ -175,6 +176,7 @@ Just be careful to use the tag you have built.
 
 Date|Major Changes
 :---|:---
+2026-10-28|Remove stale pid if exists, see [#43](https://github.com/GioF71/minidlna-docker/issues/43)
 2026-05-10|Add support for `-r` and `-R`, see [#41](https://github.com/GioF71/minidlna-docker/issues/41)
 2026-04-13|Avoid to use a PID file [#39](https://github.com/GioF71/minidlna-docker/issues/39)
 2026-04-11|Fixed issue [#37](https://github.com/GioF71/minidlna-docker/issues/37)
